@@ -1,10 +1,22 @@
 #!/bin/bash
 
-# Move connection file to /data/, so it can be more easily picked up in Host
-cp /root/static_eth0.nmconnection /data/
+
+CON_NAME=static_eth0
+
+
+# Test if connection exists
+
+x="$(nmcli con show ${CON_NAME})"
+if [ $? -eq 0 ]; then
+    echo "Connection exists"
+else
+    echo "Adding connection"
+
+    nmcli con add connection.id ${CON_NAME} ifname eth0 type ethernet ipv4.method manual ipv6.method disabled ipv4.addresses 192.168.10.1/24 ipv4.never-default true
+fi
 
 # Bring up the connection
-nmcli con up static_eth0
+nmcli con up ${CON_NAME}
 
 # Update DHCP config
 UDHCPD_CONF=/tmp/udhcpd.conf
