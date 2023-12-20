@@ -7,7 +7,6 @@ ENV UDEV on
 
 ENV app_udhcpd_config=/root/udhcpd.conf
 
-COPY static_eth0.nmconnection /root/
 COPY udhcpd.conf /root/
 COPY start.sh /root/
 
